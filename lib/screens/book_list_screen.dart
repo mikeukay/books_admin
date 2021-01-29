@@ -1,4 +1,5 @@
 import 'package:books_admin/cubits/auth/auth_cubit.dart';
+import 'package:books_admin/screens/create_book_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +29,9 @@ class BookListScreen extends StatelessWidget {
             foregroundColor: Colors.white,
             backgroundColor: Theme.of(context).primaryColor,
             onPressed: () async {
-              print('add book!');
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => CreateBookScreen())
+              );
             },
           ),
         ),
@@ -37,3 +40,5 @@ class BookListScreen extends StatelessWidget {
     );
   }
 }
+
+
