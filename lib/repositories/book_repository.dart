@@ -12,4 +12,21 @@ class BookRepository {
       'quotes': []
     });
   }
+
+  Future<List<Book>> getInitialBooks() async {
+    List<Map<String, dynamic>> rawBooks = await bookDataProvider.getRecentBooks();
+    List<Book> books = rawBooks.map((rawBook) => Book.fromMap(rawBook)).toList();
+
+    return books;
+  }
+
+  Future<List<Book>> loadBooksAfter(Book b, {int limit = 10}) async {
+    List<Map<String, dynamic>> rawBooks = await bookDataProvider.getRecentBooks(
+        limit: limit,
+        after: b.dateRead
+    );
+    List<Book> books = rawBooks.map((rawBook) => Book.fromMap(rawBook)).toList();
+
+    return books;
+  }
 }
