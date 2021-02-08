@@ -1,5 +1,6 @@
 import 'package:books_admin/models/book.dart';
 import 'package:books_admin/models/form_elements/form_elements.dart';
+import 'package:books_admin/repositories/book_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -7,8 +8,8 @@ import 'package:formz/formz.dart';
 part 'create_book_state.dart';
 
 class CreateBookCubit extends Cubit<CreateBookState> {
-  // TODO: declare book repository
-  CreateBookCubit() : super(const CreateBookState()); // TODO: assign book repository
+  final BookRepository _bookRepository;
+  CreateBookCubit({BookRepository bookRepository}) : _bookRepository = bookRepository ?? BookRepository(), super(const CreateBookState());
 
   FormzStatus validateFormState(CreateBookState state) {
     return Formz.validate([
@@ -83,8 +84,8 @@ class CreateBookCubit extends Cubit<CreateBookState> {
           review: state.review.value,
           quotes: []
         );
-        // TODO: use book repository to create a new book
-        print("create new book with title='${bookToCreate.title}'");
+
+        await _bookRepository.setBook(bookToCreate);
 
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
       } catch(_) {

@@ -1,4 +1,5 @@
 import 'package:books_admin/cubits/create_book/create_book_cubit.dart';
+import 'package:books_admin/repositories/book_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -17,7 +18,9 @@ class CreateBookScreen extends StatelessWidget {
         ),
       ),
       body: BlocProvider(
-        create: (context) => CreateBookCubit(),
+        create: (context) => CreateBookCubit(
+          bookRepository: RepositoryProvider.of<BookRepository>(context),
+        ),
         child: CreateBookForm(),
       ),
     );

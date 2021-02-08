@@ -1,5 +1,6 @@
 import 'package:books_admin/auth_wrapper.dart';
 import 'package:books_admin/cubits/auth/auth_cubit.dart';
+import 'package:books_admin/repositories/book_repository.dart';
 import 'package:books_admin/screens/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +23,19 @@ class MyApp extends StatelessWidget {
       builder: (context, snap) {
         if (snap.connectionState != ConnectionState.done)
           return InitialLoadingScreen();
-        return BlocProvider(
-          create: (context) => AuthCubit()..tryToSignInSilently(),
-          child: MaterialApp(
-            title: 'Books - Admin',
-            theme: ThemeData(
-              primaryColor: hooloovoo,
-              accentColor: hooloovoo,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
+        return RepositoryProvider(
+          create: (context) => BookRepository(),
+          child: BlocProvider(
+            create: (context) => AuthCubit()..tryToSignInSilently(),
+            child: MaterialApp(
+              title: 'Books - Admin',
+              theme: ThemeData(
+                primaryColor: hooloovoo,
+                accentColor: hooloovoo,
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+              ),
+              home: AuthWrapper(),
             ),
-            home: AuthWrapper(),
           ),
         );
       }
