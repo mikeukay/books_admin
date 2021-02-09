@@ -7,6 +7,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'edit_book_screen.dart';
+
 class BookListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -111,7 +113,9 @@ class _BookListView extends StatelessWidget {
               placeholder: (context, url) => const SizedBox.shrink(),
             ),
             onTap: () async {
-              /* TODO: push edit book screen */
+              await Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => EditBookScreen(book: b))
+              );
               BlocProvider.of<BookListCubit>(context).refresh();
             },
           );
