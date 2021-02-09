@@ -23,4 +23,17 @@ class BookDataProvider {
     });
     return books;
   }
+
+  Stream<Map<String, dynamic>> getBookStream(String id) {
+    return db.collection("books").doc(id).snapshots().map((bookSnap) {
+      if(!bookSnap.exists) return null;
+      return bookSnap.data()..addAll({
+        "id": id,
+      });
+    });
+  }
+
+  Future<void> deleteBook(String id) {
+    return db.collection("books").doc(id).delete();
+  }
 }
